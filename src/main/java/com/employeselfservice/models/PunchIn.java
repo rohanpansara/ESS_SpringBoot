@@ -9,31 +9,29 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "punch_ins")
 public class PunchIn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "punch_in_id")
-    private long id;
+    @Column(name = "p_in_id")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id",nullable = false)
+    @JoinColumn(name = "e_id",nullable = false)
     @JsonManagedReference
     private Employee employee;
 
-    @Column(name = "punch_in_time",nullable = false)
+    @Column(name = "p_in_time",nullable = false)
     private LocalDateTime punchInTime;
 
     public PunchIn(Employee employee){

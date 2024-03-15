@@ -4,6 +4,8 @@ import com.employeselfservice.JWT.services.JWTService;
 import com.employeselfservice.dao.request.LeaveRequest;
 import com.employeselfservice.dao.response.ApiResponse;
 import com.employeselfservice.models.Employee;
+import com.employeselfservice.models.Attendance;
+import com.employeselfservice.services.AttendanceService;
 import com.employeselfservice.services.EmployeeService;
 import com.employeselfservice.services.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -26,13 +27,17 @@ public class DashboardController {
     private JWTService jwtService;
 
     @Autowired
-    ApiResponse apiResponse;
+    private ApiResponse apiResponse;
 
     @Autowired
     private EmployeeService employeeService;
 
     @Autowired
     private LeaveService leaveService;
+
+    @Autowired
+    private AttendanceService attendanceService;
+
 
     @GetMapping("/admin/allEmployees")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -105,5 +110,29 @@ public class DashboardController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
         }
     }
+
+    @PostMapping("/user/attendance")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<ApiResponse> calculateAttendance(@RequestParam long employeeId, @RequestParam String date) {
+        try {
+            System.out.println(employeeId);
+            LocalDate localDate = LocalDate.parse(date);
+            Attendance calculatedAttendance = attendanceService.calculateAttendance((Long)employeeId, localDate);
+            if (calculatedAttendance != null) {
+                apiResponse.setSuccess(true);
+                apiResponse.setMessage("Attendance Fetched");
+                apiResponse.setData(calculatedAttendance);
+            } else {
+                apiResponse.setSuccess(false);
+                apiResponse.setMessage("Couldn't Fetch Attendance");
+            }
+            return ResponseEntity.ok(apiResponse);
+        } catch (Exception e) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Internal Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+        }
+    }
+
 }
 

@@ -2,36 +2,34 @@ package com.employeselfservice.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "punch_outs")
 public class PunchOut {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "punch_out_id")
-    private long id;
+    @Column(name = "p_out_id")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "e_id")
     @JsonManagedReference
     private Employee employee;
 
-    @Column(name = "punch_out_time")
-    private LocalDateTime punchInTime;
+    @Column(name = "p_out_time")
+    private LocalDateTime punchOutTime;
 
     public PunchOut(Employee employee){
         this.employee=employee;
-        this.punchInTime = LocalDateTime.now();
+        this.punchOutTime = LocalDateTime.now();
     }
 
     @Override
@@ -39,7 +37,7 @@ public class PunchOut {
         return "PunchOut{" +
                 "id=" + id +
                 ", employee=" + employee.getFirstname().trim()+" "+employee.getLastname().trim() +
-                ", punchInTime=" + punchInTime +
+                ", punchInTime=" + punchOutTime +
                 '}';
     }
 }

@@ -13,52 +13,57 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
 @Table(name = "employee")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
+    @Column(name = "e_id")
     private Long id;
 
-    @Column(name = "employee_firstname", nullable = false)
+    @Column(name = "e_firstname", nullable = false)
     private String firstname;
 
-    @Column(name = "employee_middlename")
+    @Column(name = "e_middlename")
     private String middlename;
 
-    @Column(name = "employee_lastname", nullable = false)
+    @Column(name = "e_lastname", nullable = false)
     private String lastname;
 
-    @Column(name = "employee_email", nullable = false, unique = true)
+    @Column(name = "e_email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "employee_password", nullable = false)
+    @Column(name = "e_password", nullable = false)
     private String password;
 
-    @Column(name = "employee_role", columnDefinition = "VARCHAR(100) DEFAULT 'ROLE_USER'")
+    @Column(name = "e_mobile", nullable = false)
+    private String mobile;
+
+    @Column(name = "e_emergency")
+    private String emergencyMobile;
+
+    @Column(name = "e_role", columnDefinition = "VARCHAR(100) DEFAULT 'ROLE_USER'")
     private String roles;
 
-    @Column(name = "employee_birthdate", nullable = true)
+    @Column(name = "e_birthdate", nullable = true)
     private LocalDate birthdate;
 
-    @Column(name = "employee_joining_date", nullable = true)
+    @Column(name = "e_joining_date", nullable = true)
     private LocalDate dateOfJoining;
 
-    @Column(name = "employee_gender", nullable = true)
+    @Column(name = "e_gender", nullable = true)
     private String gender;
 
-    @Column(name = "employee_blood_group", nullable = true)
+    @Column(name = "e_blood_group", nullable = true)
     private String bloodGroup;
 
     @ManyToOne
-    @JoinColumn(name = "designation_id")
+    @JoinColumn(name = "d_id")
     @JsonBackReference(value="employee-designation")
     private Designation designation;
 
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "t_id")
     @JsonBackReference(value="employee-team")
     private Team team;
 

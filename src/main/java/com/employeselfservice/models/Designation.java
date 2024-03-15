@@ -3,10 +3,7 @@ package com.employeselfservice.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,19 +11,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "designations")
 public class Designation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "designation_id")
+    @Column(name = "d_id")
     private Long id;
 
-    @Column(name = "designation_name",unique = true,nullable = false)
+    @Column(name = "d_name",unique = true,nullable = false)
     private String name;
 
-    @Column(name = "designation_description")
+    @Column(name = "d_description")
     private String description;
 
     @OneToMany(mappedBy = "designation")
@@ -34,6 +32,17 @@ public class Designation {
     private List<Employee> employees;
 
     public Designation(String id) {
+        System.out.println("Designation(String id)");
         this.id = Long.parseLong(id);
+    }
+
+    public Designation(Long id) {
+        System.out.println("Designation(Long id)");
+        this.id = id;
+    }
+
+    public Designation(int id) {
+        System.out.println("Designation(int id)");
+        this.id = (long) id;
     }
 }

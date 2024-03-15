@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "Requester-Type", exposedHeaders = "X-Get-Header")
 public class EmployeeController {
 
     @Autowired
@@ -36,11 +36,6 @@ public class EmployeeController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "Welcome this endpoint is not secure";
-    }
 
     @PostMapping("/addNewEmployee")
     public ResponseEntity<ApiResponse> addEmployee(@RequestBody Employee employee) {
@@ -74,8 +69,10 @@ public class EmployeeController {
     public AuthResponse authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
+            System.out.println("Authenticated");
             String token = jwtService.generateToken(authRequest.getUsername());
             Employee employee = employeeService.findByEmail(authRequest.getUsername());
+            System.out.println(employee);
             return new AuthResponse(token, employee);
         } else {
             throw new UsernameNotFoundException("Invalid user request!");

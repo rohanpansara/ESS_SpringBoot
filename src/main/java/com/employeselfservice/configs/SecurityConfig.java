@@ -42,10 +42,10 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(
-                                        request -> request.getRequestURI().startsWith("/auth/welcome"),
                                         request -> request.getRequestURI().startsWith("/auth/addNewEmployee"),
                                         request -> request.getRequestURI().startsWith("/auth/login"),
-                                        request -> request.getRequestURI().startsWith("/auth/punch")
+                                        request -> request.getRequestURI().startsWith("/auth/punch"),
+                                        request -> request.getRequestURI().startsWith("/auth/holiday/getAll")
                                 ).permitAll()
                                 .requestMatchers(
                                         new AntPathRequestMatcher("/auth/user/**"),

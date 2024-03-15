@@ -12,7 +12,7 @@ public class PunchOutService {
     @Autowired
     private PunchOutRepository punchOutRepository;
 
-    public String addPunchOut(long id){
+    public String addPunchOut(Long id){
         Employee employee = new Employee(id);
         punchOutRepository.save(new PunchOut(employee));
         return "punched";

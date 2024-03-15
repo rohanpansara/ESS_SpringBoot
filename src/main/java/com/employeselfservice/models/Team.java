@@ -10,10 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -21,26 +18,38 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "team")
 public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_id")
+    @Column(name = "t_id")
     private Long id;
 
-    @Column(name = "team_name", nullable = false, unique = true)
+    @Column(name = "t_name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "team_description")
+    @Column(name = "t_description")
     private String description;
 
     @OneToMany(mappedBy = "team")
     @JsonManagedReference(value="employee-team")
     private List<Employee> employees;
 
+    public Team(Long id) {
+        System.out.println("Team(Long id)");
+        this.id = id;
+    }
+
+    public Team(int id) {
+        System.out.println("Team(int id)");
+        this.id = (long) id;
+    }
+
     public Team(String id) {
+        System.out.println("Team(String id)");
         this.id = Long.parseLong(id);
     }
 

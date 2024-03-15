@@ -29,31 +29,31 @@ public class Leave {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "leave_id")
-    private long id;
+    @Column(name = "l_id")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "e_id")
     @JsonBackReference(value = "employee")
     private Employee employee;
 
-    @Column(name = "leave_reason")
+    @Column(name = "l_reason")
     private String reason;
 
-    @Column(name = "leave_applied_on")
+    @Column(name = "l_applied_on")
     private LocalDate appliedOn;
 
-    @Column(name = "leave_from")
+    @Column(name = "l_from")
     private LocalDate from;
 
-    @Column(name = "leave_to")
+    @Column(name = "l_to")
     private LocalDate to;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "leave_status")
+    @Column(name = "l_status")
     private LeaveStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "leave_type")
+    @Column(name = "l_type")
     private LeaveType type;
 }

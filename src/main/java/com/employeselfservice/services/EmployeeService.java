@@ -1,6 +1,5 @@
 package com.employeselfservice.services;
 
-import com.employeselfservice.models.Designation;
 import com.employeselfservice.models.Employee;
 import com.employeselfservice.repositories.DesignationRepository;
 import com.employeselfservice.repositories.EmployeeRepository;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService implements UserDetailsService {
@@ -22,17 +20,17 @@ public class EmployeeService implements UserDetailsService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private PasswordEncoder encoder;
+    private DesignationRepository designationRepository;
 
     @Autowired
-    private DesignationRepository designationRepository;
+    private PasswordEncoder encoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Employee userDetail = employeeRepository.findByEmail(email);
 
         if (userDetail == null) {
-            throw new UsernameNotFoundException("User not found " + email);
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
         return new EmployeeDetails(userDetail);
@@ -52,10 +50,6 @@ public class EmployeeService implements UserDetailsService {
     public Employee findByEmail(String email){
         return employeeRepository.findByEmail(email);
     }
-
-//    public Optional<Employee> findById(Long id){
-//            return employeeRepository.findById(id);
-//    }
 
     public Employee findEmployeeById(long id) {
         return employeeRepository.findById(id);

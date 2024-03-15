@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "Requester-Type", exposedHeaders = "X-Get-Header")
 public class HolidayController {
 
     @Autowired
     private HolidayService holidayService;
 
-    @GetMapping("/user/holiday/getAll")
+    @GetMapping("/holiday/getAll")
     public List<Holiday> getAllHolidays(){
         return holidayService.findAllHolidays();
     }
